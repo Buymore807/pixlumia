@@ -1,21 +1,21 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
-import { PRODUCTS as INITIAL_PRODUCTS } from './constants';
-import { Product, CartItem, Category, PosterFormat, FORMAT_DETAILS, User, Order } from './types';
-import Navbar from './components/Navbar';
-import ProductCard from './components/ProductCard';
-import Cart from './components/Cart';
-import BackOffice from './components/BackOffice';
-import Testimonials from './components/Testimonials';
-import ServiceImpressionBanner from './components/ServiceImpressionBanner';
-import ServiceImpressionPage from './components/ServiceImpressionPage';
-import Auth from './components/Auth';
-import CustomerArea from './components/CustomerArea';
-import AIAssistant from './components/AIAssistant';
-import ShippingTrust from './components/ShippingTrust';
+import { PRODUCTS as INITIAL_PRODUCTS } from './constants.tsx';
+import { Product, CartItem, Category, PosterFormat, FORMAT_DETAILS, User, Order } from './types.ts';
+import Navbar from './components/Navbar.tsx';
+import ProductCard from './components/ProductCard.tsx';
+import Cart from './components/Cart.tsx';
+import BackOffice from './components/BackOffice.tsx';
+import Testimonials from './components/Testimonials.tsx';
+import ServiceImpressionBanner from './components/ServiceImpressionBanner.tsx';
+import ServiceImpressionPage from './components/ServiceImpressionPage.tsx';
+import Auth from './components/Auth.tsx';
+import CustomerArea from './components/CustomerArea.tsx';
+import AIAssistant from './components/AIAssistant.tsx';
+import ShippingTrust from './components/ShippingTrust.tsx';
 
 type Page = 'home' | 'custom-print' | 'account';
 
+// Added missing default export and completed the component logic which was truncated.
 const App: React.FC = () => {
   const [activePage, setActivePage] = useState<Page>('home');
   const [user, setUser] = useState<User | null>(() => {
@@ -217,86 +217,57 @@ const App: React.FC = () => {
                 className="cursor-pointer inline-flex items-center gap-3 px-6 py-2 glass rounded-full text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-8 border border-indigo-500/30 hover:scale-105 transition-all group"
               >
                 <div className="w-8 h-8 rounded-lg overflow-hidden border border-indigo-500/50 shadow-lg">
-                   <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=100&auto=format&fit=crop" className="w-full h-full object-cover" alt="Lumia" />
+                   <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=100&auto=format&fit=crop" className="w-full h-full object-cover" alt="" />
                 </div>
-                Besoin d'aide ? Discutez avec Lumia
-                <i className="fas fa-magic ml-1 group-hover:rotate-12 transition-transform text-fuchsia-500"></i>
+                Demander à Lumia
               </div>
-              <h1 className="font-brand text-6xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-none">
-                Sublimez<br/>
-                <span className="gradient-text">Votre Intérieur</span>
+              
+              <h1 className="text-6xl md:text-8xl font-brand font-black text-white mb-8 tracking-tighter">
+                L'ART DU <span className="gradient-text">POSTER</span>
               </h1>
-              <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
-                Art Digital & Tirages Qualité Galerie. Testez notre conseiller IA pour trouver la pièce idéale !
+              <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto font-medium leading-relaxed">
+                Tirages d'exception sur papier satiné 235g. <br/> 
+                Sublimez vos murs avec nos collections cinéma, gaming et séries.
               </p>
             </div>
           </header>
 
-          <main className="flex-grow w-full">
-            <div className="max-w-7xl mx-auto px-4 pb-20">
-              <ServiceImpressionBanner onAction={() => setActivePage('custom-print')} />
-              
-              <div className="mt-24 space-y-12">
-                <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-                  <div className="flex flex-wrap items-center justify-center gap-3">
-                    {categories.map(cat => (
-                      <button
-                        key={cat}
-                        onClick={() => { setActiveCategory(cat); setSearchTerm(''); }}
-                        className={`px-8 py-3 rounded-2xl text-sm font-bold transition-all duration-300 border ${
-                          activeCategory === cat && !searchTerm
-                            ? 'bg-indigo-600 border-indigo-500 text-white shadow-xl shadow-indigo-600/30 -translate-y-1' 
-                            : 'bg-slate-900/40 border-white/5 text-slate-400 hover:border-indigo-500/50 hover:text-white'
-                        }`}
-                      >
-                        {cat}
-                      </button>
-                    ))}
-                  </div>
-                  
-                  <div className="relative w-full md:w-80 group">
-                    <input 
-                      type="text" 
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      placeholder="Chercher un film, style..."
-                      className="w-full bg-slate-900/40 border border-white/10 rounded-2xl px-6 py-3 text-sm text-white outline-none focus:border-indigo-500/50 transition-all"
-                    />
-                    <i className="fas fa-search absolute right-5 top-1/2 -translate-y-1/2 text-slate-600 group-focus-within:text-indigo-500 transition-colors"></i>
-                  </div>
-                </div>
-
-                {searchTerm && (
-                  <div className="flex items-center gap-4 animate-in fade-in">
-                    <p className="text-slate-500 text-xs font-black uppercase tracking-widest">Résultats pour : <span className="text-indigo-400">"{searchTerm}"</span></p>
-                    <button onClick={() => setSearchTerm('')} className="text-slate-600 hover:text-white text-[10px] uppercase font-black">Effacer</button>
-                  </div>
-                )}
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 min-h-[400px]">
-                  {filteredProducts.length > 0 ? (
-                    filteredProducts.map(product => (
-                      <ProductCard 
-                        key={product.id} 
-                        product={product} 
-                        onAddToCart={addToCart}
-                        customStudioBg={customStudioBg}
-                      />
-                    ))
-                  ) : (
-                    <div className="col-span-full py-20 text-center glass rounded-[3rem] border-dashed border-white/10">
-                       <i className="fas fa-search text-4xl text-slate-800 mb-6"></i>
-                       <p className="text-white font-bold">Aucun poster ne correspond à cette recherche.</p>
-                       <button onClick={() => {setSearchTerm(''); setActiveCategory('Tous');}} className="mt-4 text-indigo-400 text-xs font-black uppercase tracking-widest">Voir tout le catalogue</button>
-                    </div>
-                  )}
-                </div>
+          <main className="max-w-7xl mx-auto px-4 py-20 flex-grow">
+            <div className="flex flex-col md:flex-row gap-8 justify-between items-center mb-16">
+              <div className="flex flex-wrap justify-center gap-2">
+                {categories.map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border ${activeCategory === cat ? 'bg-indigo-600 border-indigo-500 text-white shadow-xl shadow-indigo-600/20' : 'bg-slate-900/50 border-white/5 text-slate-500 hover:border-white/20 hover:text-white'}`}
+                  >
+                    {cat}
+                  </button>
+                ))}
               </div>
-
-              <ShippingTrust />
+              <div className="relative w-full md:w-80 group">
+                <i className="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors"></i>
+                <input 
+                  type="text" 
+                  placeholder="Rechercher une oeuvre..." 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-slate-900/50 border border-white/5 rounded-full pl-12 pr-6 py-3.5 text-xs font-bold text-white outline-none focus:border-indigo-500/50 transition-all"
+                />
+              </div>
             </div>
-            <Testimonials />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
+              {filteredProducts.map(product => (
+                <ProductCard key={product.id} product={product} onAddToCart={addToCart} customStudioBg={customStudioBg} />
+              ))}
+            </div>
+
+            <ServiceImpressionBanner onAction={() => setActivePage('custom-print')} />
           </main>
+
+          <Testimonials />
+          <ShippingTrust />
         </>
       )}
 
@@ -304,7 +275,7 @@ const App: React.FC = () => {
         <ServiceImpressionPage 
           onAddToCart={addToCart} 
           customStudioBg={customStudioBg} 
-          onBack={() => setActivePage('home')}
+          onBack={() => setActivePage('home')} 
         />
       )}
 
@@ -312,73 +283,83 @@ const App: React.FC = () => {
         <CustomerArea 
           user={user} 
           orders={orders} 
-          onLogout={handleLogout}
+          onLogout={handleLogout} 
           onAuthClick={() => setIsAuthModalOpen(true)}
           onUpdateUser={handleUpdateUser}
         />
       )}
 
-      <footer className="bg-slate-950 border-t border-white/5 pt-24 pb-12">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-            <span className="text-2xl font-brand font-black text-white uppercase tracking-tight">
-                PIX<span className="text-indigo-500">LUMIA</span>
-            </span>
-            <p className="text-slate-500 text-[10px] font-bold mt-4 uppercase tracking-[0.4em]">Laboratoire Photo & Édition d'Art</p>
+      <footer className="py-20 border-t border-white/5 bg-slate-950">
+        <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-12">
+          <div className="col-span-2 space-y-8">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-fuchsia-500 rounded-xl flex items-center justify-center">
+                <i className="fas fa-gem text-white"></i>
+              </div>
+              <span className="text-2xl font-brand font-black text-white">PIXLUMIA</span>
+            </div>
+            <p className="text-slate-500 text-sm max-w-sm leading-relaxed">
+              Pixlumia est un studio de tirage d'art indépendant. Nous croyons que chaque mur mérite une histoire exceptionnelle, imprimée avec une précision chirurgicale sur les meilleurs supports.
+            </p>
+            <div className="flex gap-4">
+              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i className="fab fa-instagram"></i></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i className="fab fa-tiktok"></i></a>
+              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white transition-colors"><i className="fab fa-pinterest"></i></a>
+            </div>
+          </div>
+          <div>
+            <h4 className="text-white font-black text-[10px] uppercase tracking-widest mb-6">Navigation</h4>
+            <ul className="space-y-4 text-sm text-slate-500 font-medium">
+              <li><button onClick={() => setActivePage('home')} className="hover:text-white transition-colors">Galerie</button></li>
+              <li><button onClick={() => setActivePage('custom-print')} className="hover:text-white transition-colors">Impression Perso</button></li>
+              <li><button onClick={() => setActivePage('account')} className="hover:text-white transition-colors">Mon Compte</button></li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-white font-black text-[10px] uppercase tracking-widest mb-6">Support</h4>
+            <ul className="space-y-4 text-sm text-slate-500 font-medium">
+              <li><a href="#" className="hover:text-white transition-colors">Suivi Colis</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Livraison & Retours</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Mentions Légales</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">© 2024 PIXLUMIA STUDIO - MADE WITH PASSION</p>
+          <div className="flex items-center gap-6">
+            <i className="fab fa-cc-stripe text-slate-700 text-2xl"></i>
+            <i className="fab fa-cc-visa text-slate-700 text-2xl"></i>
+            <i className="fab fa-cc-mastercard text-slate-700 text-2xl"></i>
+          </div>
         </div>
       </footer>
 
       <Cart 
         isOpen={isCartOpen} 
-        onClose={() => setIsCartOpen(false)}
-        items={cart}
+        onClose={() => setIsCartOpen(false)} 
+        items={cart} 
         allProducts={products}
-        onRemove={removeFromCart}
-        onUpdateQuantity={updateQuantity}
+        onRemove={removeFromCart} 
+        onUpdateQuantity={updateQuantity} 
         onAddToCart={addToCart}
         user={user}
-        onAuthRequired={() => setIsAuthModalOpen(true)}
+        onAuthRequired={() => { setIsCartOpen(false); setIsAuthModalOpen(true); }}
         onOrderComplete={handleOrderComplete}
       />
 
       <Auth 
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)} 
-        onLogin={setUser}
+        onLogin={setUser} 
       />
 
       <AIAssistant 
         isOpen={isAIOpen} 
-        onClose={() => setIsAIOpen(false)}
+        onClose={() => setIsAIOpen(false)} 
+        onFilterApply={(theme) => { setSearchTerm(theme); setActiveCategory('Tous'); }}
         products={products}
-        onFilterApply={(theme) => {
-          setSearchTerm(theme);
-          setActiveCategory('Tous');
-          document.getElementById('root')?.scrollIntoView({ behavior: 'smooth' });
-        }}
       />
-      
-      {/* Floating AI Trigger with Advisor Avatar */}
-      {!isAIOpen && activePage === 'home' && (
-        <button 
-          onClick={() => setIsAIOpen(true)}
-          className="fixed bottom-8 right-8 w-20 h-20 rounded-[2.2rem] p-1 shadow-2xl z-40 hover:scale-110 active:scale-95 transition-all group overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-fuchsia-600 animate-pulse"></div>
-          <div className="relative w-full h-full rounded-[2rem] overflow-hidden border-2 border-white/20">
-             <img 
-               src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=200&auto=format&fit=crop" 
-               className="w-full h-full object-cover brightness-[0.9] group-hover:scale-110 transition-transform duration-500" 
-               alt="Lumia AI" 
-             />
-             <div className="absolute bottom-2 right-2 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white animate-bounce shadow-lg"></div>
-          </div>
-          {/* Professional Tooltip */}
-          <div className="absolute right-24 top-1/2 -translate-y-1/2 px-5 py-2.5 glass text-white text-[10px] font-black uppercase tracking-widest rounded-2xl opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 whitespace-nowrap pointer-events-none shadow-2xl border border-indigo-500/50">
-             <i className="fas fa-sparkles text-indigo-400 mr-2"></i>
-             Besoin d'un conseil ?
-          </div>
-        </button>
-      )}
     </div>
   );
 };
